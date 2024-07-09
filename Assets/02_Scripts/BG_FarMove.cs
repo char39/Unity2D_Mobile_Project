@@ -9,7 +9,7 @@ using UnityEngine;
 public class BG_FarMove : MonoBehaviour
 {
     [SerializeField] private MeshRenderer meshRenderer;
-    public float speed = 10f;
+    public float speed = 0.2f;
     private float x;
     
     void Start()
@@ -20,6 +20,8 @@ public class BG_FarMove : MonoBehaviour
 
     void Update()
     {
-        
+        x += speed * Time.deltaTime;
+        meshRenderer.material.mainTextureOffset = new Vector2(x, 0);    // MeshRenderer.Material.Image를 움직이는 코드
+
     }
 }
