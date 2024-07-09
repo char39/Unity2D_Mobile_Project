@@ -56,5 +56,5 @@
         "temp/": true,
         "Temp/": true
     },
-    "dotnet.defaultSolution": "Unity2DGame.sln"
+    "dotnet.defaultSolution": "Unity2D_Mobile_Project.sln"
 }
