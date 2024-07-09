@@ -10,7 +10,7 @@ public class RocketCtrl : MonoBehaviour
     public AudioClip hitClip;
     private Transform tr = null;
     [Header("Vars")]
-    private float speed = 10.0f;
+    private float speed = 1.0f;
     private float h = 0f, v = 0f;
     private string Asteroid_Tag = "ASTEROID";
     private float halfHeight = 0.0f, halfWidth = 0.0f;
@@ -40,7 +40,7 @@ public class RocketCtrl : MonoBehaviour
                 float deltaPosY = Input.GetTouch(0).position.y - halfHeight;  // 터치 입력 y좌표
                 float xPos = deltaPosX - tr.position.x;   // 플레이어 x좌표
                 float yPos = deltaPosY - tr.position.y;   // 플레이어 y좌표
-                tr.Translate(speed * Time.deltaTime * xPos * 0.05f, speed * Time.deltaTime * yPos, 0.0f);  // 이동
+                tr.Translate(speed * Time.deltaTime * xPos * 0.05f, speed * Time.deltaTime * yPos * 0.05f, 0.0f);  // 이동
             }
         }
         if (Application.platform == RuntimePlatform.WindowsEditor)  // 윈도우 에디터(유니티) 플랫폼일 때
