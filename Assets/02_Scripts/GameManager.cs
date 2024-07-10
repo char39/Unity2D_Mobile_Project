@@ -17,6 +17,7 @@ public class GameManager : MonoBehaviour
     private Vector3 posCamera;   // 카메라의 위치
     private float hitBeginTime;  // 피격 시작 시간
     private bool isHit = false; // 피격 여부
+    public bool isGameOver = false; // 게임오버 여부
 
     void Start()
     {

@@ -4,23 +4,35 @@ using UnityEngine;
 
 public class BG_NearMove : MonoBehaviour
 {
-    [SerializeField] private Transform tr = null;
-    private Vector3 offset = Vector3.zero;
-    public float speed = 10f;
-    
+    private Transform tr;
+    private float speed;
+    private float width;
+    private BoxCollider2D boxCollider2D;
 
-    void Start()
+    IEnumerator Start()
     {
+        speed = 25.0f;
         tr = GetComponent<Transform>();
+        boxCollider2D = GetComponent<BoxCollider2D>();
+        width = boxCollider2D.size.x;
+        yield return null;
+        StartCoroutine(BackGroundLoop());
     }
 
-    void Update()
+    IEnumerator BackGroundLoop()
     {
-        tr.Translate(Vector3.left * speed * Time.deltaTime);
-        if (tr.position.x <= -61f)
+        while (!GameManager.instance.isGameOver)
         {
-            tr.position = new Vector3(-19.4f, tr.position.y, tr.position.z);
+            tr.Translate(Vector3.left * speed * Time.deltaTime);
+            if (tr.position.x <= -width * 2f)
+                RePosition();
+            yield return new WaitForSeconds(0.02f);
         }
-
     }
+    void RePosition()
+    {
+        Vector2 offset = new Vector2(width * 3f, 0.0f);
+        tr.position = (Vector2)tr.position + offset;
+    }
+
 }

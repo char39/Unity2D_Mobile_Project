@@ -5,6 +5,7 @@ TagManager:
   serializedVersion: 2
   tags:
   - ASTEROID
+  - BULLET
   layers:
   - Default
   - TransparentFX
@@ -42,6 +43,9 @@ TagManager:
   - name: Default
     uniqueID: 0
     locked: 0
+  - name: BG_Far
+    uniqueID: 229663629
+    locked: 0
   - name: BG_Near
     uniqueID: 4028390685
     locked: 0
@@ -50,4 +54,7 @@ TagManager:
     locked: 0
   - name: Asteriod
     uniqueID: 440495781
+    locked: 0
+  - name: CoinBullet
+    uniqueID: 49053715
     locked: 0

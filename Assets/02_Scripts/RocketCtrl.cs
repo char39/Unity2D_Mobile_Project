@@ -1,7 +1,9 @@
 using System.Collections;
 using System.Collections.Generic;
+using Unity.Mathematics;
 using Unity.VisualScripting;
 using UnityEngine;
+using UnityStandardAssets.CrossPlatformInput;
 
 public class RocketCtrl : MonoBehaviour
 {
@@ -14,6 +16,10 @@ public class RocketCtrl : MonoBehaviour
     private float h = 0f, v = 0f;
     private string Asteroid_Tag = "ASTEROID";
     private float halfHeight = 0.0f, halfWidth = 0.0f;
+    public Transform firePos;
+    public GameObject coinBullet;
+    private Vector3 moveVector;
+    [SerializeField] private JoyStick_TouchPad joyStick_TouchPad;
 
     void Start()
     {
@@ -21,6 +27,7 @@ public class RocketCtrl : MonoBehaviour
         source = GetComponent<AudioSource>();
         halfHeight = Screen.height * 0.5f;
         halfWidth = Screen.width * 0.5f;
+        joyStick_TouchPad = GameObject.Find("Image_JoyStickPad").GetComponent<JoyStick_TouchPad>();
     }
 
     void Update()
@@ -30,29 +37,34 @@ public class RocketCtrl : MonoBehaviour
         QuitApp();
     }
 
+    public void OnStickPos(Vector3 stickPos)
+    {
+        h = stickPos.x;
+        v = stickPos.y;
+    }
     private void AppPlatform()
     {
         if (Application.platform == RuntimePlatform.Android)        // 안드로이드 플랫폼일 때
         {
-            if (Input.touchCount > 0)   // 터치 입력이 있을 때
-            {
-                float deltaPosX = Input.GetTouch(0).position.x - halfWidth;   // 터치 입력 x좌표
-                float deltaPosY = Input.GetTouch(0).position.y - halfHeight;  // 터치 입력 y좌표
-                float xPos = deltaPosX - tr.position.x;   // 플레이어 x좌표
-                float yPos = deltaPosY - tr.position.y;   // 플레이어 y좌표
-                tr.Translate(speed * Time.deltaTime * xPos * 0.005f, speed * Time.deltaTime * yPos * 0.005f, 0.0f);  // 이동
-            }
+            JoyStickCtrl();
         }
         if (Application.platform == RuntimePlatform.WindowsEditor)  // 윈도우 에디터(유니티) 플랫폼일 때
         {
-            h = Input.GetAxisRaw("Horizontal");        // 수평축 입력
-            v = Input.GetAxisRaw("Vertical");          // 수직축 입력
-            Vector2 moveDir = h * Vector2.right + v * Vector2.up;       // 이동 방향
-            tr.Translate(moveDir.normalized * speed * Time.deltaTime);  // 이동
+            JoyStickCtrl();
         }
         if (Application.platform == RuntimePlatform.IPhonePlayer)   // 아이폰 플랫폼일 때
         {
-
+            JoyStickCtrl();
+        }
+    }
+    private void JoyStickCtrl()
+    {
+        if (GetComponent<Rigidbody2D>())
+        {
+            Vector2 speed = GetComponent<Rigidbody2D>().velocity;
+            speed.x = h * 4.0f;
+            speed.y = v * 4.0f;
+            GetComponent<Rigidbody2D>().velocity = speed;
         }
     }
     private void CameraOutLimit()
@@ -100,4 +112,9 @@ public class RocketCtrl : MonoBehaviour
             }
         }
     }
+    public void Fire()
+    {
+        Instantiate(coinBullet, firePos.position, Quaternion.identity);
+    }
+
 }
