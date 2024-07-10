@@ -73,6 +73,7 @@ public class JoyStick_TouchPad : MonoBehaviour
                     {
                         touchID = -1;   // 터치패드 내에서 터치 없음
                         ButtonUp();     // 터치패드 위치 초기화
+                        //rocketCtrl.rb2D.velocity = Vector2.zero;  // 로켓 속도 초기화
                     }
                 }
             }

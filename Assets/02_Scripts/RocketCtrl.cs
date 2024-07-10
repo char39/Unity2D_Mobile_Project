@@ -8,6 +8,7 @@ public class RocketCtrl : MonoBehaviour
     public AudioSource source;
     public AudioClip hitClip;
     private Transform tr = null;
+    public Rigidbody2D rb2D;
     [Header("Vars")]
     private float speed;
     private float h = 0f, v = 0f;
@@ -21,6 +22,7 @@ public class RocketCtrl : MonoBehaviour
     void Start()
     {
         speed = 6.0f;
+        rb2D = GetComponent<Rigidbody2D>();
         tr = GetComponent<Transform>();
         source = GetComponent<AudioSource>();
         halfHeight = Screen.height * 0.5f;
@@ -57,13 +59,10 @@ public class RocketCtrl : MonoBehaviour
     }
     private void JoyStickCtrl()
     {
-        if (GetComponent<Rigidbody2D>())
-        {
-            Vector2 speed = GetComponent<Rigidbody2D>().velocity;
-            speed.x = h * this.speed;
-            speed.y = v * this.speed;
-            GetComponent<Rigidbody2D>().velocity = speed;
-        }
+        Vector2 speed = rb2D.velocity;
+        speed.x = h * this.speed;
+        speed.y = v * this.speed;
+        rb2D.velocity = speed;
     }
     private void CameraOutLimit()
     {
