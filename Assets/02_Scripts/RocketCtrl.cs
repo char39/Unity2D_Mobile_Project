@@ -1,9 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
-using Unity.Mathematics;
-using Unity.VisualScripting;
 using UnityEngine;
-using UnityStandardAssets.CrossPlatformInput;
 
 public class RocketCtrl : MonoBehaviour
 {
@@ -12,7 +9,7 @@ public class RocketCtrl : MonoBehaviour
     public AudioClip hitClip;
     private Transform tr = null;
     [Header("Vars")]
-    private float speed = 10.0f;
+    private float speed;
     private float h = 0f, v = 0f;
     private string Asteroid_Tag = "ASTEROID";
     private float halfHeight = 0.0f, halfWidth = 0.0f;
@@ -23,6 +20,7 @@ public class RocketCtrl : MonoBehaviour
 
     void Start()
     {
+        speed = 6.0f;
         tr = GetComponent<Transform>();
         source = GetComponent<AudioSource>();
         halfHeight = Screen.height * 0.5f;
@@ -62,8 +60,8 @@ public class RocketCtrl : MonoBehaviour
         if (GetComponent<Rigidbody2D>())
         {
             Vector2 speed = GetComponent<Rigidbody2D>().velocity;
-            speed.x = h * 4.0f;
-            speed.y = v * 4.0f;
+            speed.x = h * this.speed;
+            speed.y = v * this.speed;
             GetComponent<Rigidbody2D>().velocity = speed;
         }
     }
