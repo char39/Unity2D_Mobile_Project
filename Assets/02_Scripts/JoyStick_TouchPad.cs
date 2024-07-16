@@ -10,12 +10,14 @@ public class JoyStick_TouchPad : MonoBehaviour
     private float dragRadius = 125.0f;   // 터치패드의 반지름
     private int touchID = -1;   // 터치패드 내에서의 터치 ID. -1이면 터치 없음, 0 이상이면 터치 중
     private bool isTouch = false;   // 터치 입력 중 여부
+    public JoyStick_TouchPad joyStick_TouchPad;
 
     public Vector3 diff;
     [SerializeField] private RocketCtrl rocketCtrl;
 
     void Start()
     {
+        joyStick_TouchPad = this;
         rectTr_TouchPad = GetComponent<RectTransform>();
         startPos = rectTr_TouchPad.position;
         rocketCtrl = GameObject.FindWithTag("Player").GetComponent<RocketCtrl>();
@@ -28,6 +30,7 @@ public class JoyStick_TouchPad : MonoBehaviour
     {
         isTouch = false;
         rectTr_TouchPad.position = startPos;
+        rocketCtrl.rb2D.velocity = Vector2.zero;  // 로켓 속도 초기화
     }
     // 정확한 물리 연산을 구현하거나, 원하는 프레임 속도로 업데이트할 때 사용.
     // Update()는 화면을 그리기 전에 호출되므로 렌더링과 관련된 작업에 적합.
@@ -73,7 +76,6 @@ public class JoyStick_TouchPad : MonoBehaviour
                     {
                         touchID = -1;   // 터치패드 내에서 터치 없음
                         ButtonUp();     // 터치패드 위치 초기화
-                        //rocketCtrl.rb2D.velocity = Vector2.zero;  // 로켓 속도 초기화
                     }
                 }
             }
