@@ -201,6 +201,37 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 248804466}
   m_CullTransparentMesh: 1
+--- !u!1 &266661458
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 266661459}
+  m_Layer: 0
+  m_Name: ObjPoolEff
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &266661459
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 266661458}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.7071171, y: 0.5540016, z: 0.011773893}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &519420028
 GameObject:
   m_ObjectHideFlags: 0
@@ -913,6 +944,37 @@ PrefabInstance:
     m_AddedGameObjects: []
     m_AddedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d8c41be67f41aa545ae053b0b927f821, type: 3}
+--- !u!1 &965667725
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 965667726}
+  m_Layer: 0
+  m_Name: ObjPool
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &965667726
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 965667725}
+  serializedVersion: 2
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 1.7071171, y: 0.5540016, z: 0.011773893}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_ConstrainProportionsScale: 0
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!4 &994400958 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2574858855211431950, guid: 179da7ff17ae07b499b39c7ddd2e20bc, type: 3}
@@ -1153,6 +1215,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 14315e9e1c99c4b4ab5e2b51ba1a6e72, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  joyStick_TouchPad: {fileID: 0}
+  diff: {x: 0, y: 0, z: 0}
+  rocketCtrl: {fileID: 0}
 --- !u!1 &1308985835
 GameObject:
   m_ObjectHideFlags: 0
@@ -1215,6 +1280,9 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   AsteroidPrefab: {fileID: 3848581689968174164, guid: 82a16c7ac990a4c40b5f5403609062fb, type: 3}
   isGameOver: 0
+  AsteList: []
+  ExplosionList: []
+  ExplosionPrefab: {fileID: 100000, guid: 9586d118f3312f94286aa49754913a71, type: 3}
 --- !u!4 &1356013874
 Transform:
   m_ObjectHideFlags: 0
@@ -1335,8 +1403,10 @@ MonoBehaviour:
   StarEffect: {fileID: 100000, guid: 9586d118f3312f94286aa49754913a71, type: 3}
   source: {fileID: 0}
   hitClip: {fileID: 8300000, guid: 8844ea1e78ce19c4fb275e7ae3e40020, type: 3}
+  rb2D: {fileID: 0}
   firePos: {fileID: 1308985836}
   coinBullet: {fileID: 4509370818644234447, guid: 320185c82fc958f47b3a5e5210f44af4, type: 3}
+  joyStick_TouchPad: {fileID: 0}
 --- !u!70 &1413388591
 CapsuleCollider2D:
   m_ObjectHideFlags: 0
@@ -1787,3 +1857,5 @@ SceneRoots:
   - {fileID: 1356013874}
   - {fileID: 735346653}
   - {fileID: 701352802}
+  - {fileID: 965667726}
+  - {fileID: 266661459}

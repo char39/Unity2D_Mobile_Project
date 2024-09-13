@@ -1,5 +1,4 @@
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class BG_NearMove : MonoBehaviour
@@ -31,7 +30,7 @@ public class BG_NearMove : MonoBehaviour
     }
     void RePosition()
     {
-        Vector2 offset = new Vector2(width * 3f, 0.0f);
+        Vector2 offset = new(width * 3f, 0.0f);
         tr.position = (Vector2)tr.position + offset;
     }
 

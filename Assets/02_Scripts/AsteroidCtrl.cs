@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class AsteroidCtrl : MonoBehaviour
@@ -8,25 +6,34 @@ public class AsteroidCtrl : MonoBehaviour
     public AudioSource source;
     public AudioClip hitClip;
     private Transform hitPos;
-    private Transform tr = null;
+    private Transform tr;
     private SpriteRenderer spriteRenderer;
     private CircleCollider2D circleCollider2D;
     private float speed;
 
-    void Start()
+    void Awake()
     {
         tr = GetComponent<Transform>();
-        speed = Random.Range(10.0f, 15.0f);
         source = GetComponent<AudioSource>();
         spriteRenderer = GetComponent<SpriteRenderer>();
         circleCollider2D = GetComponent<CircleCollider2D>();
+        speed = Random.Range(10.0f, 15.0f);
+        spriteRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        circleCollider2D.enabled = true;
+    }
+
+    void OnEnable()
+    {
+        speed = Random.Range(10.0f, 15.0f);
+        spriteRenderer.color = new Color(1.0f, 1.0f, 1.0f, 1.0f);
+        circleCollider2D.enabled = true;
     }
 
     void Update()
     {
-        tr.Translate(Vector3.left * speed * Time.deltaTime);
+        tr.Translate(speed * Time.deltaTime * Vector3.left);
         if (tr.position.x < -40.0f)
-            Destroy(gameObject);
+            SetDeActive();
     }
 
     private void OnTriggerEnter2D(Collider2D coll)
@@ -35,13 +42,22 @@ public class AsteroidCtrl : MonoBehaviour
         {
             source.PlayOneShot(hitClip, 1.0f);
             hitPos = coll.GetComponent<Transform>();
-            GameObject effect = Instantiate(explosionEffect, hitPos.position, Quaternion.identity);
-            Destroy(effect, 0.5f);
+            GameManager.instance.SetActiveExplosionFromPool(transform);
             Destroy(coll.gameObject);
             spriteRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
             circleCollider2D.enabled = false;
             circleCollider2D.GetComponentInChildren<ParticleSystem>().Stop();
-            Destroy(gameObject, 0.3f);
+            Invoke(nameof(SetDeActive), 0.3f);
+        }
+        else if (coll.CompareTag("Player"))
+        {
+            hitPos = coll.GetComponent<Transform>();
+            GameManager.instance.SetActiveExplosionFromPool(transform);
+            spriteRenderer.color = new Color(1.0f, 1.0f, 1.0f, 0.0f);
+            circleCollider2D.enabled = false;
+            circleCollider2D.GetComponentInChildren<ParticleSystem>().Stop();
+            Invoke(nameof(SetDeActive), 0.3f);
         }
     }
+    private void SetDeActive() => gameObject.SetActive(false);
 }

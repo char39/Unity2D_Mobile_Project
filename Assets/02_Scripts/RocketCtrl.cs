@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class RocketCtrl : MonoBehaviour
@@ -44,18 +42,10 @@ public class RocketCtrl : MonoBehaviour
     }
     private void AppPlatform()
     {
-        if (Application.platform == RuntimePlatform.Android)        // 안드로이드 플랫폼일 때
-        {
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)        // 안드로이드 플랫폼일 때
             JoyStickCtrl();
-        }
-        if (Application.platform == RuntimePlatform.WindowsEditor)  // 윈도우 에디터(유니티) 플랫폼일 때
-        {
+        if (Application.platform == RuntimePlatform.WindowsEditor || Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer)  // 윈도우 에디터(유니티) 플랫폼일 때
             JoyStickCtrl();
-        }
-        if (Application.platform == RuntimePlatform.IPhonePlayer)   // 아이폰 플랫폼일 때
-        {
-            JoyStickCtrl();
-        }
     }
     private void JoyStickCtrl()
     {
@@ -66,48 +56,20 @@ public class RocketCtrl : MonoBehaviour
     }
     private void CameraOutLimit()
     {
-        #region 카메라 밖으로 나가지 못하게 하는 함수 (1)
-        // if (tr.position.x >= 8.5f)      // 우측 벽에 닿았을 때 우측 벽에 고정
-        // {
-        //     tr.position = new Vector3(8.5f, tr.position.y, tr.position.z);
-        // }
-        // if (tr.position.x <= -8.5f)     // 좌측 벽에 닿았을 때 좌측 벽에 고정
-        // {
-        //     tr.position = new Vector3(-8.5f, tr.position.y, tr.position.z);
-        // }
-        // if (tr.position.y >= 4.5f)      // 상단 벽에 닿았을 때 상단 벽에 고정
-        // {
-        //     tr.position = new Vector3(tr.position.x, 4.5f, tr.position.z);
-        // }
-        // if (tr.position.y <= -3.0f)     // 하단 벽에 닿았을 때 하단 벽에 고정
-        // {
-        //     tr.position = new Vector3(tr.position.x, -3.0f, tr.position.z);
-        // }
-        #endregion
-        #region 카메라 밖으로 나가지 못하게 하는 함수 (2)
         tr.position = new Vector3(Mathf.Clamp(tr.position.x, -8.5f, 8.5f), Mathf.Clamp(tr.position.y, -3.0f, 4.5f), tr.position.z);
-        #endregion
     }
     private void OnTriggerEnter2D(Collider2D other)
     {
         if (other.CompareTag(Asteroid_Tag))
         {
-            GameManager.instance.TurnOn();
-            Destroy(other.gameObject);
             source.PlayOneShot(hitClip, 1.0f);
-            GameObject effect = Instantiate(StarEffect, other.transform.position, Quaternion.identity);
-            Destroy(effect, 0.5f);
         }
     }
     void QuitApp()
     {
-        if (Application.platform == RuntimePlatform.Android)
-        {
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.OSXPlayer || Application.platform == RuntimePlatform.WindowsPlayer)
             if (Input.GetKeyDown(KeyCode.Escape))
-            {
                 Application.Quit();
-            }
-        }
     }
     public void Fire()
     {

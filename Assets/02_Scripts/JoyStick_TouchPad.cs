@@ -30,19 +30,13 @@ public class JoyStick_TouchPad : MonoBehaviour
         rectTr_TouchPad.position = startPos;
         rocketCtrl.rb2D.velocity = Vector2.zero;  // 로켓 속도 초기화
     }
-    // 정확한 물리 연산을 구현하거나, 원하는 프레임 속도로 업데이트할 때 사용.
-    // Update()는 화면을 그리기 전에 호출되므로 렌더링과 관련된 작업에 적합.
-    // FixedUpdate()는 물리 연산에 적합.
+
     private void FixedUpdate()  
     {
-        if (Application.platform == RuntimePlatform.Android)
-        {
+        if (Application.platform == RuntimePlatform.Android || Application.platform == RuntimePlatform.IPhonePlayer)
             HandleTouchInput();
-        }
-        if (Application.platform == RuntimePlatform.WindowsEditor)
-        {
+        if (Application.platform == RuntimePlatform.OSXEditor || Application.platform == RuntimePlatform.OSXPlayer)
             HandleInput(Input.mousePosition);
-        }
     }
     void HandleTouchInput()     // 모바일용 패드 이동 함수
     {
@@ -57,17 +51,11 @@ public class JoyStick_TouchPad : MonoBehaviour
                 {
                     if (touch.position.x <= startPos.x + dragRadius && touch.position.y <= startPos.y + dragRadius &&
                         touch.position.x >= startPos.x - dragRadius && touch.position.y >= startPos.y - dragRadius) // 터치패드 내에서 터치가 시작되었는지 확인
-                    {
                         touchID = i;    // 터치패드 내에서 터치 중
-                    }
                 }
                 if (touch.phase == TouchPhase.Moved || touch.phase == TouchPhase.Stationary)    // 터치가 움직이거나 멈춰있을 때
-                {
                     if (touchID == i)   // 터치패드 내에서 터치 중일 때
-                    {
                         HandleInput(touchPos);  // 터치 입력 위치로 이동
-                    }
-                }
                 if (touch.phase == TouchPhase.Ended) // 터치가 끝났을 때
                 {
                     if (touchID == i)   // 터치패드 내에서 터치 중일 때
@@ -83,11 +71,9 @@ public class JoyStick_TouchPad : MonoBehaviour
     {
         if (isTouch)    // 터치 입력 중일 때
         {
-            Vector3 diffVector = (input - startPos);   // 터치 입력 위치와 터치패드 시작 위치의 차이
+            Vector3 diffVector = input - startPos;   // 터치 입력 위치와 터치패드 시작 위치의 차이
             if (diffVector.sqrMagnitude < dragRadius * dragRadius)    // 터치 입력 위치가 터치패드 내에 있을 때
-            {
                 rectTr_TouchPad.position = startPos + diffVector;  // 터치 입력 위치로 이동
-            }
             else    // 터치 입력 위치가 터치패드 밖에 있을 때
             {
                 diffVector = diffVector.normalized * dragRadius;    // 터치 입력 위치를 터치패드 밖으로 이동
@@ -98,8 +84,6 @@ public class JoyStick_TouchPad : MonoBehaviour
         Vector2 normalDiff = new Vector2(diff.x / dragRadius, diff.y / dragRadius);  // 터치패드 위치와 터치패드 시작 위치의 차이를 정규화
 
         if (rocketCtrl != null)
-        {
             rocketCtrl.OnStickPos(normalDiff);  // 로켓 이동 함수 호출
-        }
     }
 }
